@@ -132,6 +132,68 @@ public:
         temp->nextNode = prev->nextNode;
         prev->nextNode = temp;
     }
+
+    void delete_head()
+    {
+        if(head == nullptr)
+            return;
+
+        Node* temp = head;
+        head = temp->nextNode;
+        delete temp;
+    }
+
+    void delete_tail()
+    {
+        Node* curr = head;
+
+        if(curr == nullptr)
+            return;
+        else if(curr->nextNode == nullptr)
+        {
+            delete head;
+            head = nullptr;
+            return;
+        }
+        while(curr->nextNode->nextNode != nullptr)
+        {
+            curr = curr->nextNode;
+        }
+        curr->nextNode = nullptr;
+    }
+
+    void delete_pos(int pos)
+    {
+        if(head == nullptr || pos < 1)
+            return;
+
+        if(pos == 1)
+        {
+            this->delete_head();
+            return;
+        }
+        else if(pos == length_list())
+        {
+            this->delete_tail();
+            return;
+        }
+
+        int count = 0;
+        Node* curr = head;
+        while(count < pos - 1 && curr->nextNode == nullptr)
+        {
+            curr = curr->nextNode;
+        }
+
+        if(curr->nextNode == nullptr || curr == NULL)
+        {
+            return;
+        }
+
+        Node* temp = curr->nextNode;
+        curr->nextNode = curr->nextNode->nextNode;
+        delete temp;
+    }
 };
 
 int main()
@@ -145,6 +207,8 @@ int main()
     l.insert_begin(6);
     l.insert_middle(3,15);
     l.insert_middle(1,5);
+    l.delete_tail();
+    l.delete_pos(3);
 
     l.traverse();
 
